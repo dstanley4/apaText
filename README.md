@@ -1,2 +1,2 @@
 # apaText
-apaText companion to apaTables
+apaText companion to apaTables.
