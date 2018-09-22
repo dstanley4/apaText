@@ -15,5 +15,5 @@ Imports:
     cocor
 Suggests:
     apaTables
-Date: 2018-04-14
-RoxygenNote: 6.0.1
+Date: 2018-09-22
+RoxygenNote: 6.1.0
