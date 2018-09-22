@@ -37,15 +37,21 @@ get_p_apa_txt <- function(p_value) {
 #' # You must create an object called apa.default.options
 #' # for options to be used, as per below.
 #'
-#' apa.options <- set.apa.default.options
+#' apa.options <- set.apa.default.options()
 #' @export
-set.default.apa.options <- function() {
+set.apa.default.options <- function() {
 
   default_options <- list(
+    show.mean = TRUE,
+    show.sd = TRUE,
+    show.se = FALSE,
     show.conf.interval = TRUE,
     show.N = TRUE,
     show.p = TRUE,
-    show.statistic = TRUE)
+    show.statistic = TRUE,
+    number.decimals = 2
+    )
+  #show mean, sd, se, and show.decimals need further implementation xyzzy
 
   return(default_options)
 }
@@ -56,10 +62,22 @@ set_local_options <- function(arg_options) {
   if (is.apa.options == TRUE) {
     assign("cur_options", get("apa.options", envir = globalenv()))
   } else {
-    cur_options <- set.default.apa.options()
+    cur_options <- set.apa.default.options()
   }
 
   #set local arguments
+  if (!is.null(arg_options$show.mean))  {
+    cur_options$show.mean <- arg_options$show.mean
+  }
+
+  if (!is.null(arg_options$show.sd))  {
+    cur_options$show.sd <- arg_options$show.sd
+  }
+
+  if (!is.null(arg_options$show.se))  {
+    cur_options$show.se <- arg_options$show.se
+  }
+
   if (!is.null(arg_options$show.conf.interval))  {
     cur_options$show.conf.interval <- arg_options$show.conf.interval
   }
@@ -75,6 +93,11 @@ set_local_options <- function(arg_options) {
   if (!is.null(arg_options$show.statistic))  {
     cur_options$show.statistic <- arg_options$show.statistic
   }
+
+  if (!is.null(arg_options$number.decimals))  {
+    cur_options$number.decimals <- arg_options$number.decimals
+  }
+
 
   return(cur_options)
 }
