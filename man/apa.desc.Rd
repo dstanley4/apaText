@@ -15,15 +15,15 @@ apa.desc(..., dv = NULL, data = NULL, show.mean = NULL,
 
 \item{data}{Project data frame name}
 
-\item{show.mean}{Show mean (Bool)}
+\item{show.mean}{Show mean (Bool. Default TRUE)}
 
-\item{show.sd}{Show standard deviation ((Bool))}
+\item{show.sd}{Show standard deviation (Bool. Default TRUE)}
 
-\item{show.se}{Show standard error (Bool)}
+\item{show.se}{Show standard error (Bool. Default FALSE)}
 
-\item{show.conf.interval}{Show confidence interval (Bool)}
+\item{show.conf.interval}{Show confidence interval (Bool. Default TRUE)}
 
-\item{show.N}{Show number of cases (Bool)}
+\item{show.N}{Show number of cases (Bool. Default TRUE)}
 }
 \value{
 R Markdown text

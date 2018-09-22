@@ -2,11 +2,11 @@
 #' @param ... one or more dplyr commands (separated by commas) to select rows. Eg: alcohol=="2 Pints", gender=="Female"
 #' @param dv Name of the dependent variable column
 #' @param data Project data frame name
-#' @param show.mean Show mean (Bool)
-#' @param show.sd Show standard deviation ((Bool))
-#' @param show.se Show standard error (Bool)
-#' @param show.conf.interval Show confidence interval (Bool)
-#' @param show.N Show number of cases (Bool)
+#' @param show.mean Show mean (Bool. Default TRUE)
+#' @param show.sd Show standard deviation (Bool. Default TRUE)
+#' @param show.se Show standard error (Bool. Default FALSE)
+#' @param show.conf.interval Show confidence interval (Bool. Default TRUE)
+#' @param show.N Show number of cases (Bool. Default TRUE)
 #' @return R Markdown text
 #' @examples
 #' #2-way ANOVA Example
@@ -53,27 +53,26 @@ apa.desc <- function(..., dv = NULL, data = NULL, show.mean = NULL, show.sd = NU
 
   if (local_options$show.mean == TRUE) {
     new_str <- sprintf("*M* = %%1.%df",number_decimals)
-    output_txt <- add_to_output(output_txt, sprintf(new_str, desc$group_m) )
-    #output_txt <- add_to_output(output_txt, sprintf("*M* = %1.2f", desc$group_m) )
+    new_str <- sprintf(new_str, desc$group_m)
+    output_txt <- add_to_output(output_txt, new_str)
   }
 
   if (local_options$show.conf.interval == TRUE) {
-    #new_str <- sprintf("*M* = %%1.%df",number_decimals)
     new_str <- sprintf("95%%%% CI[%%1.%df, %%1.%df]",number_decimals, number_decimals)
-    output_txt <- add_to_output(output_txt, sprintf(new_str, desc$LL, desc$UL) )
-    #output_txt <- add_to_output(output_txt, sprintf("95%% CI[%1.2f, %1.2f]", desc$LL, desc$UL) )
+    new_str <- sprintf(new_str, desc$LL, desc$UL)
+    output_txt <- add_to_output(output_txt, new_str)
   }
 
   if (local_options$show.sd == TRUE) {
     new_str <- sprintf("*SD* = %%1.%df",number_decimals)
-    output_txt <- add_to_output(output_txt, sprintf(new_str, desc$group_sd) )
-    #output_txt <- add_to_output(output_txt, sprintf("*SD* = %1.2f", desc$group_sd) )
+    new_str <- sprintf(new_str, desc$group_sd)
+    output_txt <- add_to_output(output_txt, new_str)
   }
 
   if (local_options$show.se == TRUE) {
     new_str <- sprintf("*SE* = %%1.%df",number_decimals)
-    output_txt <- add_to_output(output_txt, sprintf(new_str, desc$group_se) )
-    #output_txt <- add_to_output(output_txt, sprintf("*SE* = %1.2f", desc$group_se) )
+    new_str <- sprintf(new_str, desc$group_se)
+    output_txt <- add_to_output(output_txt, new_str)
   }
 
   if (local_options$show.N == TRUE) {
