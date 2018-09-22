@@ -5,8 +5,8 @@
 \title{Report difference between between correlations within a sample}
 \usage{
 apa.r.compare.within.sample(formula, data, test = "pearson1898",
-  alternative = "two.sided", show.conf.interval = NULL, show.N = NULL,
-  show.p = NULL, show.statistic = NULL)
+  alternative = "two.sided", show.conf.interval = NULL,
+  show.N = NULL, show.p = NULL, show.statistic = NULL)
 }
 \arguments{
 \item{formula}{Formula for comparing correlations}

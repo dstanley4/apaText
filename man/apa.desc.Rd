@@ -4,15 +4,16 @@
 \alias{apa.desc}
 \title{Report descriptive statistics for a set of values}
 \usage{
-apa.desc(data = NULL, ..., dv = NULL, show.conf.interval = NULL,
+apa.desc(..., dv = NULL, data = NULL, show.mean = TRUE,
+  show.sd = TRUE, show.se = FALSE, show.conf.interval = NULL,
   show.N = NULL)
 }
 \arguments{
-\item{data}{Project data frame name}
-
 \item{...}{Tidyverse selection of rows}
 
 \item{dv}{Name of the dependent variable column}
+
+\item{data}{Project data frame name}
 
 \item{show.conf.interval}{Show confidence interval (default behavior is TRUE)}
 
