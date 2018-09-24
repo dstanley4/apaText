@@ -5,8 +5,9 @@
 \title{Report r(x,y) correlation}
 \usage{
 apa.r(data, x, y, alternative = "two.sided", method = "pearson",
-  show.conf.interval = NULL, show.N = NULL, show.p = NULL,
-  show.statistic = NULL)
+  show.r = TRUE, show.conf.interval = NULL, show.N = NULL,
+  show.p = NULL, show.statistic = NULL, number.decimals = NULL,
+  number.decimals.p = NULL)
 }
 \arguments{
 \item{data}{Project data frame name}
