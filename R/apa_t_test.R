@@ -50,7 +50,7 @@ apa.t.test <- function(t_test_object, show.mean.difference = TRUE, show.statisti
   }
 
   if (local_options$show.p == TRUE) {
-    new_str <- get_p_text(t_details$p_value, number_decimals_p, use_p_smaller_than_p001)
+    new_str <- get_p_text(t_details$p_value, number_decimals_p, use_p_smaller_than_p001, t_details$is_one_side_test)
     output_txt <- add_to_output(output_txt, new_str)
   }
 
@@ -75,6 +75,12 @@ get_t_details <- function(t_test_object) {
   LL <- t_test_object$conf.int[1]
   UL <- t_test_object$conf.int[2]
 
+  test_side <- t_test_object$alternative
+  is_one_side_test <- TRUE
+  if (test_side == "two.sided") {
+    is_one_side_test <- FALSE
+  }
+
   output <- list(t_method = t_method,
                  is_var_equal = is_var_equal,
                  M_difference = M_difference,
@@ -82,7 +88,8 @@ get_t_details <- function(t_test_object) {
                  UL = UL,
                  t_value = t_value,
                  df = df,
-                 p_value = p_value)
+                 p_value = p_value,
+                 is_one_side_test = is_one_side_test)
 
   return(output)
 }

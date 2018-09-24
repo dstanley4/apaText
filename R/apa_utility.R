@@ -135,12 +135,17 @@ get_apa_data <- function (name = "apa.data", renv = parent.frame())
   }
 }
 
-get_p_text <- function(p_value, number_decimals_p, use_p_smaller_than_p001) {
+get_p_text <- function(p_value, number_decimals_p, use_p_smaller_than_p001, is_one_side_test) {
   new_str <- sprintf("*p* = %%1.%df",number_decimals_p)
   new_str <- sprintf(new_str, p_value)
 
   if (p_value < .001 & use_p_smaller_than_p001 == TRUE) {
     new_str <- "*p* < .001"
   }
+
+  if (is_one_side_test == TRUE) {
+    new_str <- paste(new_str, "(one-sided)")
+  }
+
   return(new_str)
 }
