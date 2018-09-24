@@ -113,11 +113,3 @@ get_desc <- function(group_data, conf.level = .95) {
 }
 
 
-add_to_output <- function(output_txt, new_str) {
-  if (output_txt =="") {
-    output <- new_str
-  } else {
-    output <- sprintf("%s, %s", output_txt, new_str)
-  }
-  return(output)
-}

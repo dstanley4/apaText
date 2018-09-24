@@ -1,3 +1,13 @@
+add_to_output <- function(output_txt, new_str) {
+  if (output_txt =="") {
+    output <- new_str
+  } else {
+    output <- sprintf("%s, %s", output_txt, new_str)
+  }
+  return(output)
+}
+
+
 get_r_txt <- function(r, decimals = 2) {
   if (decimals == 2) {
     r_value_txt <- sprintf("%1.2f", r)
@@ -49,7 +59,9 @@ set.apa.default.options <- function() {
     show.N = TRUE,
     show.p = TRUE,
     show.statistic = TRUE,
-    number.decimals = 2
+    number.decimals = 2,
+    number.decimals.p = 3,
+    use_p_smaller_than_p001 = TRUE
     )
   #show mean, sd, se, and show.decimals need further implementation xyzzy
 
@@ -98,6 +110,13 @@ set_local_options <- function(arg_options) {
     cur_options$number.decimals <- arg_options$number.decimals
   }
 
+  if (!is.null(arg_options$number.decimals.p))  {
+    cur_options$number.decimals.p <- arg_options$number.decimals.p
+  }
+
+  if (!is.null(arg_options$use_p_smaller_than_p001))  {
+    cur_options$use_p_smaller_than_p001 <- arg_options$use_p_smaller_than_p001
+  }
 
   return(cur_options)
 }
@@ -116,4 +135,12 @@ get_apa_data <- function (name = "apa.data", renv = parent.frame())
   }
 }
 
+get_p_text <- function(p_value, number_decimals_p, use_p_smaller_than_p001) {
+  new_str <- sprintf("*p* = %%1.%df",number_decimals_p)
+  new_str <- sprintf(new_str, p_value)
 
+  if (p_value < .001 & use_p_smaller_than_p001 == TRUE) {
+    new_str <- "*p* < .001"
+  }
+  return(new_str)
+}
