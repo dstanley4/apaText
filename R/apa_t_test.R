@@ -1,16 +1,13 @@
 #' Report descriptive statistics for a set of values
-#' @param ... one or more dplyr commands (separated by commas) to select rows. Eg: alcohol=="2 Pints", gender=="Female"
-#' @param dv Name of the dependent variable column
-#' @param data Project data frame name
-#' @param show.mean Show mean (Bool. Default TRUE)
-#' @param show.sd Show standard deviation (Bool. Default TRUE)
-#' @param show.se Show standard error (Bool. Default FALSE)
-#' @param show.conf.interval Show confidence interval (Bool. Default TRUE)
-#' @param show.N Show number of cases (Bool. Default TRUE)
+#' @param t_test_object Object returned from t.test function
+#' @param show.mean.difference Show mean difference (Bool. Default TRUE)
+#' @param show.conf.interval Show CI for mean difference (Bool. Default TRUE)
+#' @param show.statistic Show t-value (Bool. Default TRUE)
+#' @param number.decimals Number of decimals used in output (excluding p-value)
+#' @param number.decimals.p Number of decimals used in p-value output
 #' @return R Markdown text
 #' @examples
-#' #2-way ANOVA Example
-#' library(apaTables) #load apaTables to access goggles
+#' # Example here
 #' @export
 apa.t.test <- function(t_test_object, show.mean.difference = TRUE, show.statistic = NULL, show.conf.interval = NULL, number.decimals = NULL, number.decimals.p = NULL) {
 

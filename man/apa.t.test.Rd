@@ -9,21 +9,17 @@ apa.t.test(t_test_object, show.mean.difference = TRUE,
   number.decimals = NULL, number.decimals.p = NULL)
 }
 \arguments{
-\item{show.conf.interval}{Show confidence interval (Bool. Default TRUE)}
+\item{t_test_object}{Object returned from t.test function}
 
-\item{...}{one or more dplyr commands (separated by commas) to select rows. Eg: alcohol=="2 Pints", gender=="Female"}
+\item{show.mean.difference}{Show mean difference (Bool. Default TRUE)}
 
-\item{dv}{Name of the dependent variable column}
+\item{show.statistic}{Show t-value (Bool. Default TRUE)}
 
-\item{data}{Project data frame name}
+\item{show.conf.interval}{Show CI for mean difference (Bool. Default TRUE)}
 
-\item{show.mean}{Show mean (Bool. Default TRUE)}
+\item{number.decimals}{Number of decimals used in output (excluding p-value)}
 
-\item{show.sd}{Show standard deviation (Bool. Default TRUE)}
-
-\item{show.se}{Show standard error (Bool. Default FALSE)}
-
-\item{show.N}{Show number of cases (Bool. Default TRUE)}
+\item{number.decimals.p}{Number of decimals used in p-value output}
 }
 \value{
 R Markdown text
@@ -32,6 +28,5 @@ R Markdown text
 Report descriptive statistics for a set of values
 }
 \examples{
-#2-way ANOVA Example
-library(apaTables) #load apaTables to access goggles
+# Example here
 }
