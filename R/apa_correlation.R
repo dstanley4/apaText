@@ -17,7 +17,7 @@
 #' @examples
 #' apa.r(rating, advance, data = attitude)
 #' @export
-apa.r <- function(data, x, y, alternative = "two.sided", method = "pearson", show.conf.interval = NULL, show.N = NULL, show.p = NULL, show.statistic = NULL) {
+apa.r <- function(data, x, y, alternative = "two.sided", method = "pearson", show.r = TRUE, show.conf.interval = NULL, show.N = NULL, show.p = NULL, show.statistic = NULL, number.decimals = NULL, number.decimals.p = NULL) {
   conf.level <- .95
 
   local_options <- set_local_options(list(
