@@ -1,14 +1,3 @@
-#' Report descriptive statistics for a set of values
-#' @param t_test_object Object returned from t.test function
-#' @param show.mean.difference Show mean difference (Bool. Default TRUE)
-#' @param show.conf.interval Show CI for mean difference (Bool. Default TRUE)
-#' @param show.statistic Show t-value (Bool. Default TRUE)
-#' @param number.decimals Number of decimals used in output (excluding p-value)
-#' @param number.decimals.p Number of decimals used in p-value output
-#' @return R Markdown text
-#' @examples
-#' # Example here
-#' @export
 apa.t.output <- function(t_test_object, show.mean.difference = TRUE, show.statistic = NULL, show.conf.interval = NULL, number.decimals = NULL, number.decimals.p = NULL) {
 
   local_options <- set_local_options(list(show.mean.difference = show.mean.difference,
