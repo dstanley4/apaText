@@ -4,17 +4,18 @@
 \alias{apa.desc}
 \title{Report descriptive statistics for a set of values}
 \usage{
-apa.desc(..., dv = NULL, data = NULL, show.mean = NULL,
-  show.sd = NULL, show.se = NULL, show.conf.interval = NULL,
-  show.N = NULL, number.decimals = NULL)
+apa.desc(
+  .data,
+  .dv = NULL,
+  show.mean = NULL,
+  show.sd = NULL,
+  show.se = NULL,
+  show.conf.interval = NULL,
+  show.N = NULL,
+  number.decimals = NULL
+)
 }
 \arguments{
-\item{...}{one or more dplyr commands (separated by commas) to select rows. Eg: alcohol=="2 Pints", gender=="Female"}
-
-\item{dv}{Name of the dependent variable column}
-
-\item{data}{Project data frame name}
-
 \item{show.mean}{Show mean (Bool. Default TRUE)}
 
 \item{show.sd}{Show standard deviation (Bool. Default TRUE)}
@@ -24,6 +25,8 @@ apa.desc(..., dv = NULL, data = NULL, show.mean = NULL,
 \item{show.conf.interval}{Show confidence interval (Bool. Default TRUE)}
 
 \item{show.N}{Show number of cases (Bool. Default TRUE)}
+
+\item{dv}{Name of the dependent variable column}
 }
 \value{
 R Markdown text
@@ -32,18 +35,20 @@ R Markdown text
 Report descriptive statistics for a set of values
 }
 \examples{
-#2-way ANOVA Example
-library(apaTables) #load apaTables to access goggles
+# 2-way ANOVA Example
+library(apaTables) #for sample data
+library(dplyr)
+library(magrittr)
 
 #Main Effect Means: Gender
-apa.desc(goggles, gender=="Female", dv = attractiveness)
-apa.desc(goggles, gender=="Male", dv = attractiveness)
+goggles \%>\% filter(gender == "Female") \%>\% apa.desc(attractiveness)
+goggles \%>\% filter(gender == "Male") \%>\% apa.desc(attractiveness)
 
-#Main Effect Means: Alcohol
-apa.desc(goggles, alcohol=="None", dv = attractiveness)
-apa.desc(goggles, alcohol=="2 Pints", dv = attractiveness)
-apa.desc(goggles, alcohol=="4 Pints", dv = attractiveness)
+# Main Effect Means: Alcohol
+goggles \%>\% filter(alcohol == "None") \%>\% apa.desc(attractiveness)
+goggles \%>\% filter(alcohol == "2 Pints") \%>\% apa.desc(attractiveness)
+goggles \%>\% filter(alcohol == "4 Pints") \%>\% apa.desc(attractiveness)
 
-#Cell Mean: Female, 2 Pints
-apa.desc(goggles, alcohol=="2 Pints", gender=="Female", dv = attractiveness)
+# Single Cell Mean
+goggles \%>\% filter(alcohol == "4 Pints", gender == "Female") \%>\% apa.desc(attractiveness)
 }

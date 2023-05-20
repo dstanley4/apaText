@@ -3,7 +3,6 @@
 \docType{package}
 \name{apaText}
 \alias{apaText}
-\alias{apaText-package}
 \title{Create R Markdown Text for Results in the Style of the American Psychological Association (APA)}
 \description{
 Create APA style text from analyses for use within R Markdown documents. Descriptive statistics, confidence intervals, and cell sizes are reported.

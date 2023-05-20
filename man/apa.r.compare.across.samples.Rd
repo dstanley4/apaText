@@ -2,33 +2,31 @@
 % Please edit documentation in R/apa_correlation.R, R/apa_dvalues.R
 \name{apa.r.compare.across.samples}
 \alias{apa.r.compare.across.samples}
-\title{Report difference between correlations from different samples}
+\title{Report difference between correlations from different samples via cocor}
 \usage{
-apa.r.compare.across.samples(formula, data1, data2,
-  alternative = "two.sided", show.conf.interval = NULL,
-  show.N = NULL, show.p = NULL, show.statistic = NULL)
+apa.r.compare.across.samples(
+  formula,
+  data1,
+  data2,
+  alternative = "two.sided",
+  show.conf.interval = NULL,
+  show.N = NULL,
+  show.p = NULL,
+  show.statistic = NULL
+)
 
-apa.r.compare.across.samples(formula, data1, data2,
-  alternative = "two.sided", show.conf.interval = NULL,
-  show.N = NULL, show.p = NULL, show.statistic = NULL)
+apa.r.compare.across.samples(
+  formula,
+  data1,
+  data2,
+  alternative = "two.sided",
+  show.conf.interval = NULL,
+  show.N = NULL,
+  show.p = NULL,
+  show.statistic = NULL
+)
 }
 \arguments{
-\item{formula}{Formula for comparing correlations}
-
-\item{data1}{Project data frame 1 name}
-
-\item{data2}{Project data frame 2 name}
-
-\item{alternative}{Alternative hypothesis to pass to alternative argument of cocor.indep.groups. Default is "two.sided"}
-
-\item{show.conf.interval}{Show confidence interval or not (TRUE/FALSE). Default behavior is TRUE.}
-
-\item{show.N}{Show sample size or not (TRUE/FALSE). Default behavior is TRUE.}
-
-\item{show.p}{Show p-value or not (TRUE/FALSE). Default behavior is TRUE.}
-
-\item{show.statistic}{Show test statistic or not (TRUE/FALSE). Default behavior is TRUE.}
-
 \item{formula}{Formula for comparing correlations}
 
 \item{data1}{Project data frame 1 name}
@@ -51,8 +49,6 @@ R Markdown text
 R Markdown text
 }
 \description{
-Report difference between correlations from different samples, using R Markdown, via cocor package.
-
 Report difference between correlations from different samples, using R Markdown, via cocor package.
 }
 \examples{

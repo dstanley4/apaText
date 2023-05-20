@@ -6,7 +6,6 @@
 #'
 #' @param x Name of column in data frame
 #' @param y Name of column in data frame
-#' @param data Project data frame name
 #' @param alternative Alternative hypothesis to pass to alternative argument of cor.test. Default is "two.sided"
 #' @param method Calculation method to pass to alternative argument of cor.test. Default is "pearson"
 #' @param show.conf.interval Show confidence interval or not (TRUE/FALSE). Default behavior is TRUE.
@@ -15,9 +14,10 @@
 #' @param show.statistic Show test statistic or not (TRUE/FALSE). Default behavior is TRUE.
 #' @return R Markdown text
 #' @examples
-#' apa.r(rating, advance, data = attitude)
+#' library(magrittr)
+#' attitude %>% apa.r(rating, advance)
 #' @export
-apa.r <- function(data, x, y, alternative = "two.sided", method = "pearson", show.r = TRUE, show.conf.interval = NULL, show.N = NULL, show.p = NULL, show.statistic = NULL, number.decimals = NULL, number.decimals.p = NULL) {
+apa.r <- function(.data, .x, .y, alternative = "two.sided", method = "pearson", show.r = TRUE, show.conf.interval = NULL, show.N = NULL, show.p = NULL, show.statistic = NULL, number.decimals = NULL, number.decimals.p = NULL) {
   conf.level <- .95
 
   local_options <- set_local_options(list(
@@ -27,34 +27,19 @@ apa.r <- function(data, x, y, alternative = "two.sided", method = "pearson", sho
     show.statistic = show.statistic
   ))
 
-  is_data_frame <- FALSE
-  if (!missing(data) == TRUE) {
-    is_data_frame <- TRUE
-  } else {
-    if (!is.null(get_apa_data())) {
-      message("Using apa.data data frame.")
-      assign("data", get("apa.data", envir = get_apa_data()))
-      is_data_frame <- TRUE
-    }
-  }
+  x <- enquo(.x)
+  y <- enquo(.y)
+  cor_data = select(.data, !!x, !!y)
 
-  if (is_data_frame == TRUE) {
-    x_sub <- substitute(x)
-    y_sub <- substitute(y)
+  two_vars <- na.omit(cor_data)
+  xvalues <- two_vars[, 1]
+  yvalues <- two_vars[, 2]
+  N <- length(xvalues)
 
-    x_name <- deparse(x_sub)
-    y_name <- deparse(y_sub)
-
-    x <- data[, x_name]
-    y <- data[, y_name]
-  }
-
-  two_vars <- na.omit(data.frame(x, y))
-  x <- two_vars[, 1]
-  y <- two_vars[, 2]
-  N <- length(x)
-
-  result_cor <- cor.test(x = x, y = y, method = method, alternative = alternative, conf.level = conf.level)
+  result_cor <- cor.test(x = xvalues, y = yvalues,
+                         method = method,
+                         alternative = alternative,
+                         conf.level = conf.level)
 
   alternative_txt <- ""
   if (alternative != "two.sided") {
@@ -63,7 +48,6 @@ apa.r <- function(data, x, y, alternative = "two.sided", method = "pearson", sho
 
   rvalue <- result_cor$estimate
   r_txt <- get_r_txt(rvalue, decimals = 3)
-
 
   output_txt <- sprintf("*r* = %s", r_txt)
 
@@ -100,9 +84,7 @@ apa.r <- function(data, x, y, alternative = "two.sided", method = "pearson", sho
   return(output_txt)
 }
 
-#' Report difference between correlations from different samples
-#'
-#' Report difference between correlations from different samples, using R Markdown, via cocor package.
+#' Report difference between correlations from different samples via cocor
 #'
 #' @param formula Formula for comparing correlations
 #' @param data1 Project data frame 1 name
@@ -122,7 +104,10 @@ apa.r <- function(data, x, y, alternative = "two.sided", method = "pearson", sho
 #'                              data1 = attitude,
 #'                              data2 = women)
 #' @export
-apa.r.compare.across.samples <- function(formula, data1, data2, alternative = "two.sided", show.conf.interval = NULL, show.N = NULL, show.p = NULL, show.statistic = NULL) {
+apa.r.compare.across.samples <- function(formula, data1, data2,
+                                         alternative = "two.sided",
+                                         show.conf.interval = NULL, show.N = NULL,
+                                         show.p = NULL, show.statistic = NULL) {
   conf.level <- .95
 
   local_options <- set_local_options(list(
@@ -188,6 +173,69 @@ apa.r.compare.across.samples <- function(formula, data1, data2, alternative = "t
 }
 
 
+#' Report difference between correlations from different samples via cocor
+#'
+#' @param r1 Correlation in sample 1
+#' @param n1 Sample size for sample 1
+#' @param r2 Correlation in sample 2
+#' @param n2 Sample size for sample 2
+#' @param alternative Alternative hypothesis to pass to alternative argument of cocor.indep.groups. Default is "two.sided"
+#' @param show.conf.interval Show confidence interval or not (TRUE/FALSE). Default behavior is TRUE.
+#' @param show.N Show sample size or not (TRUE/FALSE). Default behavior is TRUE.
+#' @param show.p Show p-value or not (TRUE/FALSE). Default behavior is TRUE.
+#' @param show.statistic Show test statistic or not (TRUE/FALSE). Default behavior is TRUE.
+#' @return R Markdown text
+#' @examples
+#' apa.r.compare.across.samples.from.descriptive(r1 = .3, r2 =.6, n1 = 70, n2 =80)
+#' @export
+apa.r.compare.across.samples.from.descriptive <- function(r1,r2,n1,n2,
+                                         alternative = "two.sided",
+                                         show.conf.interval = NULL, show.N = NULL,
+                                         show.p = NULL, show.statistic = NULL) {
+  conf.level <- .95
+
+  local_options <- set_local_options(list(
+    show.conf.interval = show.conf.interval,
+    show.N = show.N,
+    show.p = show.p,
+    show.statistic = show.statistic
+  ))
+
+  cor_tests <- cocor::cocor.indep.groups(r1.jk = r1, r2.hm = r2, n1 = n1, n2 = n2)
+
+  diff_r_txt <- get_r_txt(cor_tests@diff, decimals = 3)
+
+  alternative_txt <- ""
+  if (alternative != "two.sided") {
+    alternative_txt <- " (one sided)"
+  }
+  output_txt <- sprintf("$\\Delta r =$ %s", diff_r_txt)
+
+  if (local_options$show.conf.interval == TRUE) {
+    LL <- round(cor_tests@zou2007$conf.int[1], 2)
+    UL <- round(cor_tests@zou2007$conf.int[2], 2)
+    conf_level_percent <- round(conf.level * 100)
+    output_txt <- sprintf("%s, %g%% CI[%s,%s]", output_txt, conf_level_percent, LL, UL)
+  }
+
+  if (local_options$show.p == TRUE) {
+    stat_details <- cor_tests@fisher1925
+    p_apa_txt <- get_p_apa_txt(stat_details$p.value)
+    test_dist <- stat_details$distribution
+    test_value <- stat_details$statistic
+    if (local_options$show.statistic == TRUE) {
+      test_txt <- sprintf("%s = %1.2f, %s", test_dist, test_value, p_apa_txt)
+      output_txt <- sprintf("%s, %s%s", output_txt, test_txt, alternative_txt)
+    } else {
+      output_txt <- sprintf("%s, %s%s", output_txt, p_apa_txt, alternative_txt)
+    }
+  }
+
+  if (local_options$show.N == TRUE) {
+    output_txt <- sprintf("%s, *N1* = %g, *N2* = %g", output_txt, n1, n2)
+  }
+  return(output_txt)
+}
 
 
 

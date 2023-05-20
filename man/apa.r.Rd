@@ -4,18 +4,22 @@
 \alias{apa.r}
 \title{Report r(x,y) correlation}
 \usage{
-apa.r(data, x, y, alternative = "two.sided", method = "pearson",
-  show.r = TRUE, show.conf.interval = NULL, show.N = NULL,
-  show.p = NULL, show.statistic = NULL, number.decimals = NULL,
-  number.decimals.p = NULL)
+apa.r(
+  .data,
+  .x,
+  .y,
+  alternative = "two.sided",
+  method = "pearson",
+  show.r = TRUE,
+  show.conf.interval = NULL,
+  show.N = NULL,
+  show.p = NULL,
+  show.statistic = NULL,
+  number.decimals = NULL,
+  number.decimals.p = NULL
+)
 }
 \arguments{
-\item{data}{Project data frame name}
-
-\item{x}{Name of column in data frame}
-
-\item{y}{Name of column in data frame}
-
 \item{alternative}{Alternative hypothesis to pass to alternative argument of cor.test. Default is "two.sided"}
 
 \item{method}{Calculation method to pass to alternative argument of cor.test. Default is "pearson"}
@@ -27,6 +31,10 @@ apa.r(data, x, y, alternative = "two.sided", method = "pearson",
 \item{show.p}{Show p-value or not (TRUE/FALSE). Default behavior is TRUE.}
 
 \item{show.statistic}{Show test statistic or not (TRUE/FALSE). Default behavior is TRUE.}
+
+\item{x}{Name of column in data frame}
+
+\item{y}{Name of column in data frame}
 }
 \value{
 R Markdown text
@@ -35,5 +43,6 @@ R Markdown text
 Report r(x,y) correlation using R Markdown via cor.test
 }
 \examples{
-apa.r(rating, advance, data = attitude)
+library(magrittr)
+attitude \%>\% apa.r(rating, advance)
 }

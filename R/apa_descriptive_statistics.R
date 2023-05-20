@@ -1,7 +1,5 @@
 #' Report descriptive statistics for a set of values
-#' @param ... one or more dplyr commands (separated by commas) to select rows. Eg: alcohol=="2 Pints", gender=="Female"
 #' @param dv Name of the dependent variable column
-#' @param data Project data frame name
 #' @param show.mean Show mean (Bool. Default TRUE)
 #' @param show.sd Show standard deviation (Bool. Default TRUE)
 #' @param show.se Show standard error (Bool. Default FALSE)
@@ -9,41 +7,36 @@
 #' @param show.N Show number of cases (Bool. Default TRUE)
 #' @return R Markdown text
 #' @examples
-#' #2-way ANOVA Example
-#' library(apaTables) #load apaTables to access goggles
+#' # 2-way ANOVA Example
+#' library(apaTables) #for sample data
+#' library(dplyr)
+#' library(magrittr)
 #'
 #' #Main Effect Means: Gender
-#' apa.desc(goggles, gender=="Female", dv = attractiveness)
-#' apa.desc(goggles, gender=="Male", dv = attractiveness)
+#' goggles %>% filter(gender == "Female") %>% apa.desc(attractiveness)
+#' goggles %>% filter(gender == "Male") %>% apa.desc(attractiveness)
 #'
-#' #Main Effect Means: Alcohol
-#' apa.desc(goggles, alcohol=="None", dv = attractiveness)
-#' apa.desc(goggles, alcohol=="2 Pints", dv = attractiveness)
-#' apa.desc(goggles, alcohol=="4 Pints", dv = attractiveness)
+#' # Main Effect Means: Alcohol
+#' goggles %>% filter(alcohol == "None") %>% apa.desc(attractiveness)
+#' goggles %>% filter(alcohol == "2 Pints") %>% apa.desc(attractiveness)
+#' goggles %>% filter(alcohol == "4 Pints") %>% apa.desc(attractiveness)
 #'
-#' #Cell Mean: Female, 2 Pints
-#' apa.desc(goggles, alcohol=="2 Pints", gender=="Female", dv = attractiveness)
+#' # Single Cell Mean
+#' goggles %>% filter(alcohol == "4 Pints", gender == "Female") %>% apa.desc(attractiveness)
 #' @export
-apa.desc <- function(..., dv = NULL, data = NULL, show.mean = NULL, show.sd = NULL, show.se = NULL, show.conf.interval = NULL, show.N = NULL, number.decimals = NULL) {
+apa.desc <- function(.data, .dv = NULL, show.mean = NULL, show.sd = NULL, show.se = NULL, show.conf.interval = NULL, show.N = NULL, number.decimals = NULL) {
 
-  local_options <- set_local_options(list(show.mean = show.mean,
+  local_options <-  apaText:::set_local_options(list(show.mean = show.mean,
                                           show.sd = show.sd,
                                           show.se = show.se,
                                           show.conf.interval = show.conf.interval,
                                           show.N = show.N,
                                           number.decimals = number.decimals))
 
-  if (!is.null(get_apa_data())) {
-    message("Using apa.data data frame.")
-    assign("data", get("apa.data", envir = get_apa_data()))
-  }
 
-  dv <- dplyr::enquo(dv)
-  row_selection_criteria <- dplyr::quos(...)
-  data_column_frame <- dplyr::filter(data, !!! row_selection_criteria)
-  data_column_frame <- dplyr::select(data_column_frame, !!! dv)
-  data_column_frame <- stats::na.omit(data_column_frame) # only one column
-  group_data <- data_column_frame[, 1]
+
+  dv <- enquo(.dv)
+  group_data = pull(.data, !!dv)
 
   desc <- get_desc(group_data)
 
@@ -54,29 +47,29 @@ apa.desc <- function(..., dv = NULL, data = NULL, show.mean = NULL, show.sd = NU
   if (local_options$show.mean == TRUE) {
     new_str <- sprintf("*M* = %%1.%df",number_decimals)
     new_str <- sprintf(new_str, desc$group_m)
-    output_txt <- add_to_output(output_txt, new_str)
+    output_txt <- apaText:::add_to_output(output_txt, new_str)
   }
 
   if (local_options$show.conf.interval == TRUE) {
     new_str <- sprintf("95%%%% CI[%%1.%df, %%1.%df]",number_decimals, number_decimals)
     new_str <- sprintf(new_str, desc$LL, desc$UL)
-    output_txt <- add_to_output(output_txt, new_str)
+    output_txt <- apaText:::add_to_output(output_txt, new_str)
   }
 
   if (local_options$show.sd == TRUE) {
     new_str <- sprintf("*SD* = %%1.%df",number_decimals)
     new_str <- sprintf(new_str, desc$group_sd)
-    output_txt <- add_to_output(output_txt, new_str)
+    output_txt <- apaText:::add_to_output(output_txt, new_str)
   }
 
   if (local_options$show.se == TRUE) {
     new_str <- sprintf("*SE* = %%1.%df",number_decimals)
     new_str <- sprintf(new_str, desc$group_se)
-    output_txt <- add_to_output(output_txt, new_str)
+    output_txt <- apaText:::add_to_output(output_txt, new_str)
   }
 
   if (local_options$show.N == TRUE) {
-    output_txt <- add_to_output(output_txt, sprintf("*N* = %g", desc$N) )
+    output_txt <- apaText:::add_to_output(output_txt, sprintf("*N* = %g", desc$N) )
   }
 
   return(output_txt)
