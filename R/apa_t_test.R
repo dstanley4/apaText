@@ -90,6 +90,11 @@ get_t_details <- function(t_test_object) {
 
 
 #' Report descriptive statistics for a set of values
+#' @param .data A data frame or data frame extension (e.g., tibble)
+#' @param .iv Name of the independent variable column (only 2 levels)
+#' @param .dv Name of the dependent variable column
+#' @param var.equal (boolean) TRUE or FALSE for cell equal variances
+#' @param one.sided  (boolean) TRUE or FALSE for conducting a one-sided test
 #' @param bonferroni.multiplier Multiply the p-value by this number to make a bonferroni adjustment
 #' @param show.mean.difference Show mean difference (Bool. Default TRUE)
 #' @param show.conf.interval Show CI for mean difference (Bool. Default TRUE)
@@ -98,30 +103,31 @@ get_t_details <- function(t_test_object) {
 #' @param number.decimals.p Number of decimals used in p-value output
 #' @return R Markdown text
 #' @examples
-#' library(apaTables)
-#' library(dplyr)
-#' library(magrittr)
+#' if  (requireNamespace("apaTables", quietly = TRUE)){
+#'     library(dplyr)
+#'     goggles <- apaTables::goggles
 #'
-#' # one-sided test
-#' goggles %>%
-#'   filter(alcohol == "None") %>%
-#'   filter(gender == "Female" | gender == "Male") %>%
-#'   apa.ind.t.test(gender, attractiveness,
-#'                  var.equal = TRUE, one.sided = TRUE)
-#' #two-sided test
-#' goggles %>%
-#'   filter(alcohol == "None") %>%
-#'   filter(gender == "Female" | gender == "Male") %>%
-#'   apa.ind.t.test(gender, attractiveness,
-#'                  var.equal = TRUE, one.sided = FALSE)
+#'     # one-sided test
+#'     goggles %>%
+#'       filter(alcohol == "None") %>%
+#'       filter(gender == "Female" | gender == "Male") %>%
+#'       apa.ind.t.test(gender, attractiveness,
+#'                      var.equal = TRUE, one.sided = TRUE)
+#'     #two-sided test
+#'     goggles %>%
+#'       filter(alcohol == "None") %>%
+#'       filter(gender == "Female" | gender == "Male") %>%
+#'       apa.ind.t.test(gender, attractiveness,
+#'                       var.equal = TRUE, one.sided = FALSE)
 #'
-#' #two-sided test with Bonferroni correction (three exploratory tests)
-#' goggles %>%
-#'   filter(alcohol == "None") %>%
-#'   filter(gender == "Female" | gender == "Male") %>%
-#'   apa.ind.t.test(gender, attractiveness,
-#'                  var.equal = TRUE, one.sided = FALSE,
-#'                   bonferroni.multiplier = 3)
+#'     #two-sided test with Bonferroni correction (three exploratory tests)
+#'     goggles %>%
+#'       filter(alcohol == "None") %>%
+#'       filter(gender == "Female" | gender == "Male") %>%
+#'       apa.ind.t.test(gender, attractiveness,
+#'                      var.equal = TRUE, one.sided = FALSE,
+#'                       bonferroni.multiplier = 3)
+#'  }
 #' @export
 apa.ind.t.test <- function(.data, .iv, .dv, bonferroni.multiplier = 1, show.mean.difference = TRUE, show.statistic = NULL, show.conf.interval = NULL, number.decimals = NULL, number.decimals.p = NULL, var.equal = TRUE, one.sided = FALSE) {
   local_options <- set_local_options(list(show.mean.difference = show.mean.difference,
@@ -138,15 +144,15 @@ apa.ind.t.test <- function(.data, .iv, .dv, bonferroni.multiplier = 1, show.mean
   iv <- enquo(.iv)
   dv <- enquo(.dv)
 
-  ivlevels = levels(pull(.data, !!iv))
+  ivlevels = levels(dplyr::pull(.data, !!iv))
 
   grp1rows = dplyr::filter(.data, !!iv == ivlevels[1])
-  xvalues = pull(grp1rows, !!dv)
+  xvalues = dplyr::pull(grp1rows, !!dv)
 
   grp2rows = dplyr::filter(.data, !!iv == ivlevels[2])
-  yvalues = pull(grp2rows, !!dv)
+  yvalues = dplyr::pull(grp2rows, !!dv)
 
-  t_test_object = t.test(x= xvalues, y=yvalues, var.equal = var.equal, alternative = "two.sided")
+  t_test_object = stats::t.test(x= xvalues, y=yvalues, var.equal = var.equal, alternative = "two.sided")
 
   t_details <- get_t_details(t_test_object)
 

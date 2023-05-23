@@ -2,7 +2,7 @@
 % Please edit documentation in R/apa_correlation.R
 \name{apa.r.compare.across.samples}
 \alias{apa.r.compare.across.samples}
-\title{Report difference between correlations from different samples via cocor}
+\title{Report difference between correlations in markdown APA style from different samples}
 \usage{
 apa.r.compare.across.samples(
   formula,
@@ -36,7 +36,7 @@ apa.r.compare.across.samples(
 R Markdown text
 }
 \description{
-Report difference between correlations from different samples via cocor
+Report difference between correlations in markdown APA style from different samples
 }
 \examples{
 

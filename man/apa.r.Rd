@@ -2,7 +2,7 @@
 % Please edit documentation in R/apa_correlation.R
 \name{apa.r}
 \alias{apa.r}
-\title{Report r(x,y) correlation}
+\title{Report r(x,y) correlation in markdown APA style}
 \usage{
 apa.r(
   .data,
@@ -20,9 +20,17 @@ apa.r(
 )
 }
 \arguments{
+\item{.data}{A data frame or data frame extension (e.g., tibble)}
+
+\item{.x}{Name of column in data frame}
+
+\item{.y}{Name of column in data frame}
+
 \item{alternative}{Alternative hypothesis to pass to alternative argument of cor.test. Default is "two.sided"}
 
 \item{method}{Calculation method to pass to alternative argument of cor.test. Default is "pearson"}
+
+\item{show.r}{Show correlation or not (TRUE/FALSE)}
 
 \item{show.conf.interval}{Show confidence interval or not (TRUE/FALSE). Default behavior is TRUE.}
 
@@ -32,17 +40,17 @@ apa.r(
 
 \item{show.statistic}{Show test statistic or not (TRUE/FALSE). Default behavior is TRUE.}
 
-\item{x}{Name of column in data frame}
+\item{number.decimals}{Number of decimals used in output (excluding p-value)}
 
-\item{y}{Name of column in data frame}
+\item{number.decimals.p}{Number of decimals used in output for p-value}
 }
 \value{
 R Markdown text
 }
 \description{
-Report r(x,y) correlation using R Markdown via cor.test
+Report r(x,y) correlation in markdown APA style
 }
 \examples{
-library(magrittr)
+library(dplyr)
 attitude \%>\% apa.r(rating, advance)
 }

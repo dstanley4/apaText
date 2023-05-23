@@ -2,8 +2,8 @@
 #' \tabular{ll}{
 #' Package: \tab apaText\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.1.2\cr
-#' Date: \tab 2023-05-20\cr
+#' Version: \tab 0.1.7\cr
+#' Date: \tab 2023-05-23\cr
 #' License: \tab MIT\cr
 #' }
 #'

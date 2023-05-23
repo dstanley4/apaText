@@ -2,7 +2,7 @@
 % Please edit documentation in R/apa_correlation.R
 \name{apa.r.compare.across.samples.from.descriptive}
 \alias{apa.r.compare.across.samples.from.descriptive}
-\title{Report difference between correlations from different samples via cocor}
+\title{Report difference between correlations in markdown APA style from different samples}
 \usage{
 apa.r.compare.across.samples.from.descriptive(
   r1,
@@ -39,7 +39,7 @@ apa.r.compare.across.samples.from.descriptive(
 R Markdown text
 }
 \description{
-Report difference between correlations from different samples via cocor
+Report difference between correlations in markdown APA style from different samples
 }
 \examples{
 apa.r.compare.across.samples.from.descriptive(r1 = .3, r2 =.6, n1 = 70, n2 =80)

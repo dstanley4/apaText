@@ -16,6 +16,10 @@ apa.desc(
 )
 }
 \arguments{
+\item{.data}{A data frame or data frame extension (e.g., tibble)}
+
+\item{.dv}{Name of the dependent variable column}
+
 \item{show.mean}{Show mean (Bool. Default TRUE)}
 
 \item{show.sd}{Show standard deviation (Bool. Default TRUE)}
@@ -26,7 +30,7 @@ apa.desc(
 
 \item{show.N}{Show number of cases (Bool. Default TRUE)}
 
-\item{dv}{Name of the dependent variable column}
+\item{number.decimals}{Number of decimals in output}
 }
 \value{
 R Markdown text
@@ -36,19 +40,21 @@ Report descriptive statistics for a set of values
 }
 \examples{
 # 2-way ANOVA Example
-library(apaTables) #for sample data
-library(dplyr)
-library(magrittr)
+if  (requireNamespace("apaTables", quietly = TRUE)){
+    library(dplyr)
+    goggles <- apaTables::goggles
 
-#Main Effect Means: Gender
-goggles \%>\% filter(gender == "Female") \%>\% apa.desc(attractiveness)
-goggles \%>\% filter(gender == "Male") \%>\% apa.desc(attractiveness)
+    #Main Effect Means: Gender
+    goggles \%>\% filter(gender == "Female") \%>\% apa.desc(attractiveness)
+    goggles \%>\% filter(gender == "Male") \%>\% apa.desc(attractiveness)
 
-# Main Effect Means: Alcohol
-goggles \%>\% filter(alcohol == "None") \%>\% apa.desc(attractiveness)
-goggles \%>\% filter(alcohol == "2 Pints") \%>\% apa.desc(attractiveness)
-goggles \%>\% filter(alcohol == "4 Pints") \%>\% apa.desc(attractiveness)
+    # Main Effect Means: Alcohol
+    goggles \%>\% filter(alcohol == "None") \%>\% apa.desc(attractiveness)
+    goggles \%>\% filter(alcohol == "2 Pints") \%>\% apa.desc(attractiveness)
+    goggles \%>\% filter(alcohol == "4 Pints") \%>\% apa.desc(attractiveness)
 
-# Single Cell Mean
-goggles \%>\% filter(alcohol == "4 Pints", gender == "Female") \%>\% apa.desc(attractiveness)
+    # Single Cell Mean
+    goggles \%>\% filter(alcohol == "4 Pints", gender == "Female") \%>\%
+                apa.desc(attractiveness)
+}
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/apa_correlation.R
 \name{apa.r.compare.within.sample}
 \alias{apa.r.compare.within.sample}
-\title{Report difference between between correlations within a sample}
+\title{Report difference in markdown APA style between between correlations within a sample}
 \usage{
 apa.r.compare.within.sample(
   formula,
@@ -36,14 +36,15 @@ apa.r.compare.within.sample(
 R Markdown text
 }
 \description{
-Report difference between between correlations within a sample, using R Markdown, via cocor package
+Report difference in markdown APA style between between correlations within a sample
 }
 \examples{
 
 # non-overlappling variables example
-apa.r.compare.within.sample(data = attitude, formula = ~ rating + complaints | privileges + learning)
+apa.r.compare.within.sample(data = attitude,
+  formula = ~ rating + complaints | privileges + learning)
 
 # overlappling variables example
-apa.r.compare.within.sample(data = attitude, formula = ~ rating + complaints | rating + learning)
-
+apa.r.compare.within.sample(data = attitude,
+  formula = ~ rating + complaints | rating + learning)
 }

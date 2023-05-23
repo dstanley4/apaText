@@ -19,6 +19,12 @@ apa.ind.t.test(
 )
 }
 \arguments{
+\item{.data}{A data frame or data frame extension (e.g., tibble)}
+
+\item{.iv}{Name of the independent variable column (only 2 levels)}
+
+\item{.dv}{Name of the dependent variable column}
+
 \item{bonferroni.multiplier}{Multiply the p-value by this number to make a bonferroni adjustment}
 
 \item{show.mean.difference}{Show mean difference (Bool. Default TRUE)}
@@ -30,6 +36,10 @@ apa.ind.t.test(
 \item{number.decimals}{Number of decimals used in output (excluding p-value)}
 
 \item{number.decimals.p}{Number of decimals used in p-value output}
+
+\item{var.equal}{(boolean) TRUE or FALSE for cell equal variances}
+
+\item{one.sided}{(boolean) TRUE or FALSE for conducting a one-sided test}
 }
 \value{
 R Markdown text
@@ -38,28 +48,29 @@ R Markdown text
 Report descriptive statistics for a set of values
 }
 \examples{
-library(apaTables)
-library(dplyr)
-library(magrittr)
+if  (requireNamespace("apaTables", quietly = TRUE)){
+    library(dplyr)
+    goggles <- apaTables::goggles
 
-# one-sided test
-goggles \%>\%
-  filter(alcohol == "None") \%>\%
-  filter(gender == "Female" | gender == "Male") \%>\%
-  apa.ind.t.test(gender, attractiveness,
-                 var.equal = TRUE, one.sided = TRUE)
-#two-sided test
-goggles \%>\%
-  filter(alcohol == "None") \%>\%
-  filter(gender == "Female" | gender == "Male") \%>\%
-  apa.ind.t.test(gender, attractiveness,
-                 var.equal = TRUE, one.sided = FALSE)
+    # one-sided test
+    goggles \%>\%
+      filter(alcohol == "None") \%>\%
+      filter(gender == "Female" | gender == "Male") \%>\%
+      apa.ind.t.test(gender, attractiveness,
+                     var.equal = TRUE, one.sided = TRUE)
+    #two-sided test
+    goggles \%>\%
+      filter(alcohol == "None") \%>\%
+      filter(gender == "Female" | gender == "Male") \%>\%
+      apa.ind.t.test(gender, attractiveness,
+                      var.equal = TRUE, one.sided = FALSE)
 
-#two-sided test with Bonferroni correction (three exploratory tests)
-goggles \%>\%
-  filter(alcohol == "None") \%>\%
-  filter(gender == "Female" | gender == "Male") \%>\%
-  apa.ind.t.test(gender, attractiveness,
-                 var.equal = TRUE, one.sided = FALSE,
-                  bonferroni.multiplier = 3)
+    #two-sided test with Bonferroni correction (three exploratory tests)
+    goggles \%>\%
+      filter(alcohol == "None") \%>\%
+      filter(gender == "Female" | gender == "Male") \%>\%
+      apa.ind.t.test(gender, attractiveness,
+                     var.equal = TRUE, one.sided = FALSE,
+                      bonferroni.multiplier = 3)
+ }
 }

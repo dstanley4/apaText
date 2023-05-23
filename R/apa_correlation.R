@@ -1,20 +1,22 @@
 # Correlation -------------------------------------------------------------
 
-#' Report r(x,y) correlation
+#' Report r(x,y) correlation in markdown APA style
 #'
-#' Report r(x,y) correlation using R Markdown via cor.test
-#'
-#' @param x Name of column in data frame
-#' @param y Name of column in data frame
+#' @param .data A data frame or data frame extension (e.g., tibble)
+#' @param .x Name of column in data frame
+#' @param .y Name of column in data frame
 #' @param alternative Alternative hypothesis to pass to alternative argument of cor.test. Default is "two.sided"
 #' @param method Calculation method to pass to alternative argument of cor.test. Default is "pearson"
+#' @param show.r Show correlation or not (TRUE/FALSE)
 #' @param show.conf.interval Show confidence interval or not (TRUE/FALSE). Default behavior is TRUE.
 #' @param show.N Show sample size or not (TRUE/FALSE). Default behavior is TRUE.
 #' @param show.p Show p-value or not (TRUE/FALSE). Default behavior is TRUE.
 #' @param show.statistic Show test statistic or not (TRUE/FALSE). Default behavior is TRUE.
+#' @param number.decimals Number of decimals used in output (excluding p-value)
+#' @param number.decimals.p Number of decimals used in output for p-value
 #' @return R Markdown text
 #' @examples
-#' library(magrittr)
+#' library(dplyr)
 #' attitude %>% apa.r(rating, advance)
 #' @export
 apa.r <- function(.data, .x, .y, alternative = "two.sided", method = "pearson", show.r = TRUE, show.conf.interval = NULL, show.N = NULL, show.p = NULL, show.statistic = NULL, number.decimals = NULL, number.decimals.p = NULL) {
@@ -84,7 +86,7 @@ apa.r <- function(.data, .x, .y, alternative = "two.sided", method = "pearson", 
   return(output_txt)
 }
 
-#' Report difference between correlations from different samples via cocor
+#' Report difference between correlations in markdown APA style from different samples
 #'
 #' @param formula Formula for comparing correlations
 #' @param data1 Project data frame 1 name
@@ -173,7 +175,7 @@ apa.r.compare.across.samples <- function(formula, data1, data2,
 }
 
 
-#' Report difference between correlations from different samples via cocor
+#' Report difference between correlations in markdown APA style from different samples
 #'
 #' @param r1 Correlation in sample 1
 #' @param n1 Sample size for sample 1
@@ -239,9 +241,7 @@ apa.r.compare.across.samples.from.descriptive <- function(r1,r2,n1,n2,
 
 
 
-#' Report difference between between correlations within a sample
-#'
-#' Report difference between between correlations within a sample, using R Markdown, via cocor package
+#' Report difference in markdown APA style between between correlations within a sample
 #'
 #' @param formula Formula for comparing correlations
 #' @param data Project data frame name
@@ -255,11 +255,12 @@ apa.r.compare.across.samples.from.descriptive <- function(r1,r2,n1,n2,
 #' @examples
 #'
 #' # non-overlappling variables example
-#' apa.r.compare.within.sample(data = attitude, formula = ~ rating + complaints | privileges + learning)
+#' apa.r.compare.within.sample(data = attitude,
+#'   formula = ~ rating + complaints | privileges + learning)
 #'
 #' # overlappling variables example
-#' apa.r.compare.within.sample(data = attitude, formula = ~ rating + complaints | rating + learning)
-#'
+#' apa.r.compare.within.sample(data = attitude,
+#'   formula = ~ rating + complaints | rating + learning)
 #' @export
 apa.r.compare.within.sample <- function(formula, data, test = "pearson1898", alternative = "two.sided", show.conf.interval = NULL, show.N = NULL, show.p = NULL, show.statistic = NULL) {
   conf.level <- .95
