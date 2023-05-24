@@ -58,16 +58,28 @@ get_t_details <- function(t_test_object) {
   }
 
   if (length(t_test_object$estimate)>1) {
-    M_difference <- abs(t_test_object$estimate[1] - t_test_object$estimate[2])
+    M_difference <- t_test_object$estimate[1] - t_test_object$estimate[2]
   } else {
     M_difference <- t_test_object$estimate
   }
+
 
   t_value <- t_test_object$statistic
   df <- t_test_object$parameter
   p_value <- t_test_object$p.value
   LL <- t_test_object$conf.int[1]
   UL <- t_test_object$conf.int[2]
+
+  #flip UL and LL if M_difference is negative
+  if (M_difference <0) {
+    M_difference <- M_difference * -1
+    tLL <- -1*LL
+    tUL <- -1*UL
+    LL = tUL
+    UL = tLL
+  }
+
+
 
   test_side <- t_test_object$alternative
   is_one_side_test <- TRUE
